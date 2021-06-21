@@ -1,0 +1,13 @@
+---
+# cluster-cidr: (networking) IPv4/IPv6 network CIDRs to use for pod IPs (default: 10.42.0.0/16)
+# cluster_cidr: "10.42.0.0/16"
+
+# Si cualquiera de los dos está asignado, el otro es requerido
+# (networking) IPv4/IPv6 network CIDRs to use for service IPs (default: 10.43.0.0/16)
+# service_cidr: "10.43.0.0/16"
+# (networking) IPv4 Cluster IP for coredns service. Should be in your service-cidr range (default: 10.43.0.10)
+# cluster_dns: "10.43.0.10"
+
+# node_labels: []
+
+local_storage_path: ""

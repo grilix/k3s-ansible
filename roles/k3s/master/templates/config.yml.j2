@@ -1,0 +1,22 @@
+---
+{% if cluster_cidr is defined %}
+# cluster-cidr: (networking) IPv4/IPv6 network CIDRs to use for pod IPs (default: 10.42.0.0/16)
+cluster-cidr: {{ cluster_cidr}}
+{% endif %}
+
+{% if service_cidr is defined or cluster_dns is defined %}
+# Si cualquiera de los dos está asignado, el otro es requerido
+# (networking) IPv4/IPv6 network CIDRs to use for service IPs (default: 10.43.0.0/16)
+service-cidr: {{ service_cidr }}
+# (networking) IPv4 Cluster IP for coredns service. Should be in your service-cidr range (default: 10.43.0.10)
+cluster-dns: {{ cluster_dns }}
+{% endif %}
+
+{% if node_labels is defined %}
+node-label:
+{% for labels in nodeLabels %}
+  - {{ labels | quote }}
+{% endfor %}
+{% endif %}
+
+default-local-storage-path: {{ local_storage_path }}

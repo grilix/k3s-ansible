@@ -1,0 +1,8 @@
+---
+{% if node_labels is defined %}
+node-label:
+{% for labels in nodeLabels %}
+  - {{ labels | quote }}
+{% endfor %}
+{% endif %}
+default-local-storage-path: {{ local_storage_path }}
