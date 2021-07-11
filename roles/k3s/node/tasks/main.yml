@@ -11,6 +11,12 @@
     src: "files/keys/{{ master_hostname }}/node-token"
     dest: /var/lib/rancher/k3s/server/node-token
 
+- name: Directorio de configuración existe
+  become: true
+  file:
+    path: /etc/rancher/k3s
+    state: directory
+
 - name: Copiar archivo de configuración
   become: true
   template:
@@ -19,6 +25,7 @@
     owner: root
     group: root
     mode: 0544
+  register: config_file
 
 - name: Copiar servicio
   become: true
@@ -28,6 +35,16 @@
     owner: root
     group: root
     mode: 0755
+  register: unit_file
+
+- name: Activar/iniciar el servicio
+  become: true
+  systemd:
+    name: k3s-node
+    daemon_reload: yes
+    state: started
+    enabled: yes
+  register: service
 
 - name: Activar/reiniciar el servicio
   become: true
@@ -36,3 +53,4 @@
     daemon_reload: yes
     state: restarted
     enabled: yes
+  when: (config_file.changed or unit_file.changed) and not service.changed
