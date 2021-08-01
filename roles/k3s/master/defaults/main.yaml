@@ -11,3 +11,4 @@
 # node_labels: []
 
 local_storage_path: ""
+# disable_k3s_services: "servicelb,metrics-server"

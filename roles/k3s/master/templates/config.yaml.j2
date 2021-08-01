@@ -20,3 +20,6 @@ node-label:
 {% endif %}
 
 default-local-storage-path: {{ local_storage_path }}
+{% if disable_k3s_services %}
+disable: {{ disable_k3s_services }}
+{% endif %}

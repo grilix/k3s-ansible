@@ -1,5 +1,6 @@
 ---
 - name: Get the list of mounted filesystems
+  become: true
   shell: set -o pipefail && cat /proc/mounts | awk '{ print $2}' | grep -E "^{{ mounted_fs }}"
   register: get_mounted_filesystems
   args:
@@ -9,6 +10,7 @@
   check_mode: false
 
 - name: Umount filesystem
+  become: true
   mount:
     path: "{{ item }}"
     state: unmounted

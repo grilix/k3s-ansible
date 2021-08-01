@@ -1,11 +1,11 @@
 ---
-- name: Set SELinux to disabled state
+- name: Desactivar SELinux
   become: true
   selinux:
     state: disabled
   when: ansible_distribution in ['CentOS', 'Red Hat Enterprise Linux']
 
-- name: Enable IPv4 forwarding
+- name: Activar forwarding para IPv4
   become: true
   sysctl:
     name: net.ipv4.ip_forward
@@ -13,7 +13,7 @@
     state: present
     reload: yes
 
-- name: Enable IPv6 forwarding
+- name: Activar forwarding para IPv6
   become: true
   sysctl:
     name: net.ipv6.conf.all.forwarding
@@ -21,34 +21,31 @@
     state: present
     reload: yes
 
-- name: Add br_netfilter to /etc/modules-load.d/
+- name: Agregar br_netfilter a /etc/modules-load.d/
   become: true
   copy:
     content: "br_netfilter"
     dest: /etc/modules-load.d/br_netfilter.conf
     mode: "u=rw,g=,o="
-  when: ansible_distribution in ['CentOS', 'Red Hat Enterprise Linux']
 
-- name: Load br_netfilter
+- name: Cargar módulo br_netfilter
   become: true
   modprobe:
     name: br_netfilter
     state: present
-  when: ansible_distribution in ['CentOS', 'Red Hat Enterprise Linux']
 
-- name: Set bridge-nf-call-iptables (just to be sure)
+- name: Activar bridge-nf-call-iptables (para estar segures)
   become: true
   sysctl:
     name: "{{ item }}"
     value: "1"
     state: present
     reload: yes
-  when: ansible_distribution in ['CentOS', 'Red Hat Enterprise Linux']
   loop:
     - net.bridge.bridge-nf-call-iptables
     - net.bridge.bridge-nf-call-ip6tables
 
-- name: Add /usr/local/bin to sudo secure_path
+- name: Agregar /usr/local/bin al sudo secure_path
   become: true
   lineinfile:
     line: 'Defaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin'
@@ -58,3 +55,9 @@
     path: /etc/sudoers
     validate: 'visudo -cf %s'
   when: ansible_distribution in ['CentOS', 'Red Hat Enterprise Linux']
+
+- name: Incluir configuración de iptables-legacy
+  include_tasks: "iptables-legacy.yml"
+  when: >
+    ansible_lsb.id == "Debian" and
+    (ansible_lsb.major_release|int) >= 10

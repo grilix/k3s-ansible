@@ -10,8 +10,8 @@
 - name: Copiar archivo de configuración
   become: true
   template:
-    src: "config.yml.j2"
-    dest: "/etc/rancher/k3s/config.yml"
+    src: "config.yaml.j2"
+    dest: "/etc/rancher/k3s/config.yaml"
     owner: root
     group: root
     mode: 0544
