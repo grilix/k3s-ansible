@@ -1,6 +1,6 @@
 ---
-node-name: {{ inventory_hostname }}
 
+node-name: {{ inventory_hostname }}
 {% if k3s_node_label is defined %}
 node-label:
 {% for label in k3s_node_label %}

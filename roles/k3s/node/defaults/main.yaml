@@ -1,0 +1,15 @@
+# node-label
+# k3s_node_label:
+#   - "example.io/3d-printer=true"
+
+# node-taint
+# k3s_node_taint:
+#   - "example.io/uninitialized=true:NoSchedule"
+
+# k3s_local_storage_path: "/srv/k3s"
+
+# Directorio donde se aloja la configuración del cluster
+# k3s_cluster_local_path: "files/my-cluster"
+
+# k3s_master_url: "https://cluster-host:6443
+k3s_extra_agent_args: ""

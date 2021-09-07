@@ -8,7 +8,7 @@
 - name: Subir archivo de token
   become: true
   copy:
-    src: "files/keys/{{ master_hostname }}/node-token"
+    src: "{{ k3s_cluster_local_path }}/node-token"
     dest: /var/lib/rancher/k3s/server/node-token
 
 - name: Directorio de configuración existe

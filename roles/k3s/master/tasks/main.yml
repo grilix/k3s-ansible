@@ -39,11 +39,17 @@
   wait_for:
     path: /var/lib/rancher/k3s/server/node-token
 
+- name: Directorio local para el cluster existe
+  file:
+    path: "{{ k3s_cluster_local_path }}"
+    state: directory
+  delegate_to: localhost
+
 - name: Descargar archivo de token
   become: true
   fetch:
     src: /var/lib/rancher/k3s/server/node-token
-    dest: "files/keys/{{ inventory_hostname }}/"
+    dest: "{{ k3s_cluster_local_path }}/node-token"
     flat: yes
 
 - name: Directorio ~/.kube existe

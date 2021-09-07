@@ -1,14 +1,28 @@
 ---
-# cluster-cidr: (networking) IPv4/IPv6 network CIDRs to use for pod IPs (default: 10.42.0.0/16)
-# cluster_cidr: "10.42.0.0/16"
+# cluster-cidr: (networking) IPv4/IPv6 network CIDRs to use
+#               for pod IPs (default: 10.42.0.0/16)
+# k3s_cluster_cidr: "10.42.0.0/16"
 
-# Si cualquiera de los dos está asignado, el otro es requerido
-# (networking) IPv4/IPv6 network CIDRs to use for service IPs (default: 10.43.0.0/16)
-# service_cidr: "10.43.0.0/16"
-# (networking) IPv4 Cluster IP for coredns service. Should be in your service-cidr range (default: 10.43.0.10)
-# cluster_dns: "10.43.0.10"
+# service-cidr: (networking) IPv4/IPv6 network CIDRs to use
+#               for service IPs (default: 10.43.0.0/16)
+# k3s_service_cidr: "10.43.0.0/16"
 
-# node_labels: []
+# cluster-dns: (networking) IPv4 Cluster IP for coredns service.
+#              Should be in your service-cidr range (default: 10.43.0.10)
+# k3s_cluster_dns: "10.43.0.10"
 
-local_storage_path: ""
-# disable_k3s_services: "servicelb,metrics-server"
+# node-label
+# k3s_node_label:
+#   - "example.io/3d-printer=true"
+
+# node-taint
+# k3s_node_taint:
+#   - "example.io/uninitialized=true:NoSchedule"
+
+# k3s_local_storage_path: "/srv/k3s"
+# k3s_disable: "servicelb,metrics-server"
+#
+# Directorio donde se aloja la configuración del cluster
+# k3s_cluster_local_path: "files/my-cluster/node-token"
+
+k3s_extra_server_args: ""
