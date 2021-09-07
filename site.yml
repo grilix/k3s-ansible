@@ -18,4 +18,4 @@
 
 - hosts: k3s_agents
   roles:
-    - k3s-ansible/roles/k3s/node
+    - k3s-ansible/roles/k3s/agent
