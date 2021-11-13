@@ -2,14 +2,14 @@
 - name: Directorio para el token existe
   become: true
   file:
-    path: /var/lib/rancher/k3s/server
+    path: /var/lib/rancher/k3s/agent
     state: directory
 
 - name: Subir archivo de token
   become: true
   copy:
-    src: "{{ k3s_cluster_local_path }}/node-token"
-    dest: /var/lib/rancher/k3s/server/node-token
+    src: "{{ k3s_cluster_local_path }}/server-token"
+    dest: /var/lib/rancher/k3s/agent/server-token
 
 - name: Directorio de configuración existe
   become: true
@@ -20,8 +20,8 @@
 - name: Copiar archivo de configuración
   become: true
   template:
-    src: "config.yml.j2"
-    dest: "/etc/rancher/k3s/config.yml"
+    src: "config.yaml.j2"
+    dest: "/etc/rancher/k3s/config.yaml"
     owner: root
     group: root
     mode: 0544
@@ -31,7 +31,7 @@
   become: true
   template:
     src: "k3s.service.j2"
-    dest: "{{ systemd_dir }}/k3s-node.service"
+    dest: "/etc/systemd/system/k3s-node.service"
     owner: root
     group: root
     mode: 0755
@@ -41,16 +41,16 @@
   become: true
   systemd:
     name: k3s-node
-    daemon_reload: yes
+    daemon_reload: true
     state: started
-    enabled: yes
+    enabled: true
   register: service
 
 - name: Activar/reiniciar el servicio
   become: true
   systemd:
     name: k3s-node
-    daemon_reload: yes
+    daemon_reload: true
     state: restarted
-    enabled: yes
+    enabled: true
   when: (config_file.changed or unit_file.changed) and not service.changed

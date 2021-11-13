@@ -1,6 +1,6 @@
 ---
-
 node-name: {{ inventory_hostname }}
+
 {% if k3s_node_label is defined %}
 node-label:
 {% for label in k3s_node_label %}
@@ -17,4 +17,8 @@ node-taint:
 
 {% if k3s_default_local_storage_path is defined %}
 default-local-storage-path: {{ k3s_default_local_storage_path }}
+{% endif %}
+
+{% if k3s_disable is defined %}
+disable: {{ k3s_disable }}
 {% endif %}

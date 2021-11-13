@@ -7,8 +7,9 @@ After=network-online.target
 Type=notify
 ExecStartPre=-/sbin/modprobe br_netfilter
 ExecStartPre=-/sbin/modprobe overlay
-ExecStart=/usr/local/bin/k3s server --server {{ k3s_master_url }} {{ k3s_extra_server_args }} \
-  --token-file /var/lib/rancher/k3s/server/node-token
+ExecStart=/usr/local/bin/k3s server --server {{ k3s_server_url }} \
+  --config /etc/rancher/k3s/config.yaml \
+  --token-file /var/lib/rancher/k3s/server/token {{ k3s_extra_server_args }}
 KillMode=process
 Delegate=yes
 # Having non-zero Limit*s causes performance problems due to accounting overhead

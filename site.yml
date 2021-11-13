@@ -1,21 +1,21 @@
 ---
-
 - hosts: k3s_nodes
   roles:
     - role: prereq
     - role: download
 
 - hosts: k3s_pi
-  - role: raspberrypi
-
-- hosts: k3s_master[0]
   roles:
-    - k3s-ansible/roles/k3s/master
+    - role: raspberrypi
 
-- hosts: k3s_master[1:]
+- hosts: k3s_server[0]
   roles:
-    - k3s-ansible/roles/k3s/master-join
+    - k3s-ansible/roles/k3s/server
 
 - hosts: k3s_agents
   roles:
     - k3s-ansible/roles/k3s/agent
+
+- hosts: k3s_server[1:]
+  roles:
+    - k3s-ansible/roles/k3s/server-join

@@ -23,6 +23,6 @@
 # k3s_disable: "servicelb,metrics-server"
 #
 # Directorio donde se aloja la configuración del cluster
-# k3s_cluster_local_path: "files/my-cluster/node-token"
+# k3s_cluster_local_path: "files/my-cluster/"
 
 k3s_extra_server_args: ""

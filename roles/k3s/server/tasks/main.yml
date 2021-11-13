@@ -21,7 +21,7 @@
   become: true
   template:
     src: "k3s.service.j2"
-    dest: "{{ systemd_dir }}/k3s.service"
+    dest: "/etc/systemd/system/k3s.service"
     owner: root
     group: root
     mode: 0644
@@ -30,14 +30,14 @@
   become: true
   systemd:
     name: k3s
-    daemon_reload: yes
+    daemon_reload: true
     state: restarted
-    enabled: yes
+    enabled: true
 
 - name: Esperar por el token
   become: true
   wait_for:
-    path: /var/lib/rancher/k3s/server/node-token
+    path: /var/lib/rancher/k3s/server/token
 
 - name: Directorio local para el cluster existe
   file:
@@ -48,9 +48,9 @@
 - name: Descargar archivo de token
   become: true
   fetch:
-    src: /var/lib/rancher/k3s/server/node-token
-    dest: "{{ k3s_cluster_local_path }}/node-token"
-    flat: yes
+    src: /var/lib/rancher/k3s/server/token
+    dest: "{{ k3s_cluster_local_path }}/server-token"
+    flat: true
 
 - name: Directorio ~/.kube existe
   file:
@@ -64,7 +64,7 @@
   copy:
     src: /etc/rancher/k3s/k3s.yaml
     dest: ~{{ ansible_user }}/.kube/config
-    remote_src: yes
+    remote_src: true
     owner: "{{ ansible_user }}"
     mode: "u=rw,g=,o="
 

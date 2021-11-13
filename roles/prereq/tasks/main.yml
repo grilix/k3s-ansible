@@ -11,7 +11,7 @@
     name: net.ipv4.ip_forward
     value: "1"
     state: present
-    reload: yes
+    reload: true
 
 - name: Activar forwarding para IPv6
   become: true
@@ -19,7 +19,7 @@
     name: net.ipv6.conf.all.forwarding
     value: "1"
     state: present
-    reload: yes
+    reload: true
 
 - name: Agregar br_netfilter a /etc/modules-load.d/
   become: true
@@ -40,7 +40,7 @@
     name: "{{ item }}"
     value: "1"
     state: present
-    reload: yes
+    reload: true
   loop:
     - net.bridge.bridge-nf-call-iptables
     - net.bridge.bridge-nf-call-ip6tables

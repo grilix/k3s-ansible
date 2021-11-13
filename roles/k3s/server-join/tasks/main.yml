@@ -21,7 +21,7 @@
   become: true
   template:
     src: "k3s.service.j2"
-    dest: "{{ systemd_dir }}/k3s.service"
+    dest: "/etc/systemd/system/k3s.service"
     owner: root
     group: root
     mode: 0644
@@ -37,13 +37,24 @@
 - name: Subir archivo de token
   become: true
   copy:
-    src: "{{ k3s_cluster_local_path }}/node-token"
-    dest: /var/lib/rancher/k3s/server/node-token
+    src: "{{ k3s_cluster_local_path }}/server-token"
+    dest: /var/lib/rancher/k3s/server/token
+
+
+# FIXME: Tiene que haber otra forma más confiable
+# Necesitamos asegurarnos de que los nodos anteriores ya están inicializados
+# antes de poder conectar más nodos. El servicio k3s puede fallar al arrancar.
+- name: Esperar a que el nodo se registre
+  wait_for:
+    timeout: 10
+  delegate_to: localhost
 
 - name: Activar/reiniciar el servicio
   become: true
+  loop_control:
+    pause: 20
   systemd:
     name: k3s
-    daemon_reload: yes
+    daemon_reload: true
     state: restarted
-    enabled: yes
+    enabled: true
