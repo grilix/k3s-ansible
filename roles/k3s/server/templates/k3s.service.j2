@@ -8,7 +8,7 @@ Type=notify
 ExecStartPre=-/sbin/modprobe br_netfilter
 ExecStartPre=-/sbin/modprobe overlay
 ExecStart=/usr/local/bin/k3s server --config /etc/rancher/k3s/config.yaml \
-  {{ k3s_extra_server_args }}
+  --advertise-address {{ k3s_server_address }} {{ k3s_extra_server_args }}
 KillMode=process
 Delegate=yes
 # Having non-zero Limit*s causes performance problems due to accounting overhead

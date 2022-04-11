@@ -21,8 +21,12 @@
 
 # k3s_local_storage_path: "/srv/k3s"
 # k3s_disable: "servicelb,metrics-server"
-#
+
 # Directorio donde se aloja la configuración del cluster
 # k3s_cluster_local_path: "files/my-cluster/"
+
+# Dirección del servidor. Esto asegura que los nodos no se conecten
+# usando otra dirección.
+# k3s_server_address: ""
 
 k3s_extra_server_args: ""
